@@ -3,10 +3,11 @@ package br.com.mh.service;
 import br.com.mh.repository.AuthUserRepository;
 import br.com.mh.entity.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class AuthUserServiceImpl implements AuthUserService {
 
     private final AuthUserRepository authUserRepository;

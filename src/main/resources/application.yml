@@ -6,7 +6,7 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     datasource:
-      url: jdbc:postgresql://${db_host:localhost}:5432/${db_name:user-auth}
+      url: jdbc:postgresql://${db_host:localhost}:5432/${db_name:mh-user-auth-db}
       username: ${db_user}
       password: ${db_password}
       driverClassName: org.postgresql.Driver
