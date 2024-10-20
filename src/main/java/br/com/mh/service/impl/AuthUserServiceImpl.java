@@ -22,7 +22,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     @Override
     public AuthUser getAuthUserByNomeUsuario(AuthUser authUser) {
 
-        Optional<AuthUser> authUserOptional = authUserRepository.findByUsuarioNome(authUser.getNomeUsuario());
+        Optional<AuthUser> authUserOptional = authUserRepository.findByNomeUsuario(authUser.getNomeUsuario());
 
         return authUserOptional.orElseThrow();
     }

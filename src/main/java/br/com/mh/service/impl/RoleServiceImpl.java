@@ -3,6 +3,7 @@ package br.com.mh.service.impl;
 import br.com.mh.model.Role;
 import br.com.mh.repository.RoleRepository;
 import br.com.mh.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,6 +13,7 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
+    @Autowired
     public RoleServiceImpl(RoleRepository roleRepository) {
 
         this.roleRepository = roleRepository;
