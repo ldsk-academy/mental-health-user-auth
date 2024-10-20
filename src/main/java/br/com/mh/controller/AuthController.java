@@ -1,7 +1,9 @@
 package br.com.mh.controller;
 
 import br.com.mh.dto.LoginRequestDto;
+import br.com.mh.dto.LoginResponseDto;
 import br.com.mh.dto.RegisterRequestDto;
+import br.com.mh.dto.RegisterResponseDto;
 import br.com.mh.mapper.AuthUserMapper;
 import br.com.mh.model.AuthUser;
 import br.com.mh.service.AuthService;
@@ -28,18 +30,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(
-                authService.authenticateUser(authUserMapper.toAuthUser(loginRequestDto))
-        );
+        String tokenJwt = authService.authenticateUser(authUserMapper.toAuthUser(loginRequestDto));
+
+        return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDto(tokenJwt));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthUser> register(@RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<RegisterResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(authService.registerUser(authUserMapper.toAuthUser(registerRequestDto)));
+        AuthUser authUser = authService.registerUser(authUserMapper.toAuthUser(registerRequestDto));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(authUserMapper.toRegisterResponseDto(authUser));
     }
 
 }
