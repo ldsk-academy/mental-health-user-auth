@@ -14,3 +14,6 @@ server:
   port: 8082
   servlet:
     context-path: /${spring.application.name}
+logging:
+  level:
+    org.springframework.security: TRACE
