@@ -1,7 +1,8 @@
-package br.com.mh.service;
+package br.com.mh.service.impl;
 
 import br.com.mh.repository.AuthUserRepository;
-import br.com.mh.entity.AuthUser;
+import br.com.mh.model.AuthUser;
+import br.com.mh.service.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

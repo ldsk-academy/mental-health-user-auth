@@ -1,7 +1,8 @@
-package br.com.mh.service;
+package br.com.mh.service.impl;
 
-import br.com.mh.entity.Role;
+import br.com.mh.model.Role;
 import br.com.mh.repository.RoleRepository;
+import br.com.mh.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

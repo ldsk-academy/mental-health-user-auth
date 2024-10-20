@@ -1,6 +1,6 @@
 package br.com.mh.service;
 
-import br.com.mh.entity.AuthUser;
+import br.com.mh.model.AuthUser;
 
 public interface AuthUserService {
 

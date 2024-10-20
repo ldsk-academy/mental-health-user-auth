@@ -1,6 +1,6 @@
 package br.com.mh.service;
 
-import br.com.mh.entity.Role;
+import br.com.mh.model.Role;
 
 public interface RoleService {
 

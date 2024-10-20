@@ -1,6 +1,6 @@
 package br.com.mh.repository;
 
-import br.com.mh.entity.AuthUser;
+import br.com.mh.model.AuthUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
