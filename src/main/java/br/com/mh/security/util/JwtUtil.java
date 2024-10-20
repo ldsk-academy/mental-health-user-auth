@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +35,8 @@ public class JwtUtil {
     }
 
     private List<String> getRoleNameList(UserDetails userDetails) {
+
+        if(userDetails.getAuthorities() == null) return Collections.emptyList();
 
         return userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
