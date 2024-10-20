@@ -23,10 +23,10 @@ public class AuthUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome_usuario", length = 50, unique = true, nullable = false)
+    @Column(name = "nome_usuario", length = 100, unique = true, nullable = false)
     private String nomeUsuario;
 
-    @Column(name = "senha", length = 50, nullable = false)
+    @Column(name = "senha", length = 200, nullable = false)
     private String senha;
 
     @Column(name = "cpf", length = 20, unique = true, nullable = false)
