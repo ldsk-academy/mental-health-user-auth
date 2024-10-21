@@ -1,11 +1,13 @@
 package br.com.mh.service.impl;
 
+import br.com.mh.exception.AuthException;
 import br.com.mh.model.AuthUser;
 import br.com.mh.model.Role;
 import br.com.mh.security.util.JwtUtil;
 import br.com.mh.service.AuthService;
 import br.com.mh.service.AuthUserService;
 import br.com.mh.service.RoleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +18,9 @@ import java.util.Collections;
 
 @Service
 public class AuthServiceImpl implements AuthService {
+
+    private static final String DEFAULT_USER_ROLE = "USER";
+    private static final String WRONG_CREDENTIALS_MESSAGE = "Usuário ou senha incorreto.";
 
     private final AuthUserService authUserService;
     private final RoleService roleService;
@@ -45,16 +50,15 @@ public class AuthServiceImpl implements AuthService {
             return jwtUtil.generateToken((AuthUser) authentication.getPrincipal());
         } catch (Exception e) {
 
-            throw new RuntimeException("Erro ao se autenticar.");
+            throw new AuthException(HttpStatus.BAD_REQUEST, WRONG_CREDENTIALS_MESSAGE);
         }
     }
 
     @Override
     public AuthUser registerUser(AuthUser authUser) {
 
-        Role role = roleService.getRoleByNome(Role.builder().nome("ADMIN").build());
+        authUser.addRole(roleService.getRoleByNome(DEFAULT_USER_ROLE));
 
-        authUser.setRoles(Collections.singletonList(role));
         authUser.setSenha(passwordEncoder.encode(authUser.getPassword()));
 
         return authUserService.addAuthUser(authUser);

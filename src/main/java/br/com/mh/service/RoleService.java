@@ -4,5 +4,5 @@ import br.com.mh.model.Role;
 
 public interface RoleService {
 
-    Role getRoleByNome(Role role);
+    Role getRoleByNome(String nome);
 }
