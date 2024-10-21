@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -48,6 +49,17 @@ public class AuthUser implements UserDetails {
     public String getPassword() {
 
         return senha;
+    }
+
+    public void addRole(Role role) {
+
+        if(roles == null || roles.isEmpty()) {
+
+            setRoles(Collections.singletonList(role));
+        } else {
+
+            this.roles.add(role);
+        }
     }
 
     @Override
