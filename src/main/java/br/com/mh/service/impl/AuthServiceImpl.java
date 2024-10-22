@@ -2,7 +2,6 @@ package br.com.mh.service.impl;
 
 import br.com.mh.exception.AuthException;
 import br.com.mh.model.AuthUser;
-import br.com.mh.model.Role;
 import br.com.mh.security.util.JwtUtil;
 import br.com.mh.service.AuthService;
 import br.com.mh.service.AuthUserService;
@@ -11,10 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -47,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
                     new UsernamePasswordAuthenticationToken(authUser.getNomeUsuario(), authUser.getPassword())
             );
 
-            return jwtUtil.generateToken((AuthUser) authentication.getPrincipal());
+            return jwtUtil.generateToken((UserDetails) authentication.getPrincipal());
         } catch (Exception e) {
 
             throw new AuthException(HttpStatus.BAD_REQUEST, WRONG_CREDENTIALS_MESSAGE);
