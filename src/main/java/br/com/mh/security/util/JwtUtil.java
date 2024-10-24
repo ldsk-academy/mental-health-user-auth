@@ -2,6 +2,7 @@ package br.com.mh.security.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -13,12 +14,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Component
 public class JwtUtil {
 
-    private static final int SEGUNDOS = 60;
-    private static final int MINUTOS = 60 * SEGUNDOS;
-    private static final int JWT_EXPIRATION_HOURS = 2 * MINUTOS;
+    private static final int JWT_EXPIRATION_HOURS = 2;
+    private static final int JWT_EXPIRATION_MILLIS = JWT_EXPIRATION_HOURS * 60 * 60 * 1000;
+
 
     private static final String SECRET = "2OC9-B5cWopAxe88xZd1Q8RcznXHniIK4k6Tr2L1zO8=";
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
@@ -30,7 +32,7 @@ public class JwtUtil {
                     .claim("roles", getRoleNameList(userDetails))
                     .signWith(SECRET_KEY)
                     .issuedAt(new Date())
-                    .expiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_HOURS))
+                    .expiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_MILLIS))
                 .compact();
     }
 
@@ -49,6 +51,8 @@ public class JwtUtil {
             Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token);
             return true;
         } catch (Exception e) {
+
+            log.info("Invalid JWT! \nMessage: ".concat(e.getLocalizedMessage()));
 
             return false;
         }
