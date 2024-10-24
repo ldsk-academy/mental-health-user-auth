@@ -27,7 +27,7 @@ public class JwtController {
 
         boolean isTokenValid = jwtUtil.validateToken(tokenDto.getToken());
 
-        if(!isTokenValid) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if(!isTokenValid) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
