@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
             return jwtUtil.generateToken((UserDetails) authentication.getPrincipal());
         } catch (Exception e) {
 
-            throw new AuthException(HttpStatus.BAD_REQUEST, WRONG_CREDENTIALS_MESSAGE);
+            throw new AuthException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS_MESSAGE);
         }
     }
 
