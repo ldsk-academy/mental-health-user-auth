@@ -1,16 +1,22 @@
 package br.com.mh.service.impl;
 
+import br.com.mh.exception.AuthException;
 import br.com.mh.model.AuthUser;
 import br.com.mh.repository.AuthUserRepository;
 import br.com.mh.service.AuthUserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Log4j2
 @Service
 public class AuthUserServiceImpl implements AuthUserService {
+
+    private static final String MESSAGE_ERROR = "Aconteceu um erro no servidor.";
 
     private final AuthUserRepository authUserRepository;
 
@@ -23,9 +29,11 @@ public class AuthUserServiceImpl implements AuthUserService {
     @Override
     public AuthUser getAuthUserByNomeUsuario(AuthUser authUser) {
 
-        Optional<AuthUser> authUserOptional = authUserRepository.findByNomeUsuario(authUser.getNomeUsuario());
-
-        return authUserOptional.orElseThrow();
+        return authUserRepository.findByNomeUsuario(authUser.getNomeUsuario())
+                .orElseThrow(() -> {
+                    log.error(String.format("Erro ao buscar usuário %s no banco de dados.", authUser.getNomeUsuario()));
+                    return new AuthException(HttpStatus.INTERNAL_SERVER_ERROR, MESSAGE_ERROR);
+                });
     }
 
     @Override
@@ -36,10 +44,12 @@ public class AuthUserServiceImpl implements AuthUserService {
             return authUserRepository.save(authUser);
         } catch (DataIntegrityViolationException e) {
 
-            throw new RuntimeException(String.format("Já existe um usuário com o nome %s", authUser.getNomeUsuario()));
+            throw new AuthException(HttpStatus.BAD_REQUEST, String.format("Já existe um usuário com o nome %s", authUser.getNomeUsuario()));
         } catch (Exception e) {
 
-            throw new RuntimeException("Erro ao salvar o usuário: ".concat(e.getLocalizedMessage()));
+            log.error("Erro ao salvar o usuário: ".concat(e.getLocalizedMessage()));
+
+            throw new AuthException(HttpStatus.INTERNAL_SERVER_ERROR, MESSAGE_ERROR);
         }
     }
 
